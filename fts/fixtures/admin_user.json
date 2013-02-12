@@ -1,0 +1,20 @@
+[
+  {
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+      "username": "rob", 
+      "first_name": "", 
+      "last_name": "", 
+      "is_active": true, 
+      "is_superuser": true, 
+      "is_staff": true, 
+      "last_login": "2013-01-27T03:15:14.456Z", 
+      "groups": [], 
+      "user_permissions": [], 
+      "password": "pbkdf2_sha256$10000$zTns9sKzLJ56$xOEbtmq/ZFfazgRRAKzQ8uL7Dk4rf2/Me4HOyBNFZPs=", 
+      "email": "rgraham717@gmail.com", 
+      "date_joined": "2013-01-27T03:14:47.946Z"
+    }
+  }
+]
