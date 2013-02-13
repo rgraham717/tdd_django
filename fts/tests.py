@@ -2,6 +2,10 @@ from collections import namedtuple
 from django.test import LiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+import os
+if os.name == 'posix':
+    from pyvirtualdisplay import Display
+
 
 PollInfo = namedtuple('PollInfo', ['question', 'choices'])
 POLL1 = PollInfo(
@@ -27,11 +31,16 @@ class PollsTest(LiveServerTestCase):
     fixtures = ['admin_user.json']
 
     def setUp(self):
+        if os.name == 'posix':
+            self.display = Display(visible=0, size=(800,600))
+            self.display.start()
         self.browser = webdriver.Chrome()
         self.browser.implicitly_wait(3)
 
     def tearDown(self):
         self.browser.quit()
+        if os.name =='posix':
+            self.display.stop()
 
     # def test_can_create_new_poll_via_admin_site(self):
     #     # Gertrude opens her web browser, and goes to the admin page
