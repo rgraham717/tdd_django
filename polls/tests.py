@@ -124,6 +124,25 @@ class SinglePollViewTest(TestCase):
         # check our 'no votes yet' message appears
         self.assertIn('No-one has voted on this poll yet', response.content)
 
+    def test_page_shows_choices_using_form(self):
+        # set up a poll with choices
+        poll1 = Poll(question='time', pub_date=timezone.now())
+        poll1.save()
+        choice1 = Choice(poll=poll1, choice="PM", votes=0)
+        choice1.save()
+        choice2 = Choice(poll=poll1, choice="Gardener's", votes=0)
+        choice2.save()
+
+        response = self.client.get('/poll/%d/' % (poll1.id, ))
+
+        # check we've passed in a form of the right type
+        self.assertTrue(isinstance(response.context['form'], PollVoteForm))
+
+        # and check the form is being used in the template,
+        # by checking for the choice text
+        self.assertIn(choice1.choice, response.content.replace('&#39;', "'"))
+        self.assertIn(choice2.choice, response.content.replace('&#39;', "'"))
+
 class PollsVoteFormTest(TestCase):
 
     def test_form_renders_poll_choices_as_radio_inputs(self):
@@ -133,6 +152,7 @@ class PollsVoteFormTest(TestCase):
         choice1 = Choice(poll=poll1, choice='42', votes=0)
         choice1.save()
         choice2 = Choice(poll=poll1, choice='The Ultimate Answer', votes=0)
+        choice2.save()
         #set up another poll to make sure we only see the right choices
         poll2 = Poll(question='time', pub_date=timezone.now())
         poll2.save()

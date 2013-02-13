@@ -189,15 +189,16 @@ class PollsTest(LiveServerTestCase):
 
         # He also sees a form, which offers him several choices.
         # There are three options with radio buttons
-        choice_inputs = self.browser.find_element_by_css_selector(
+        choice_inputs = self.browser.find_elements_by_css_selector(
             "input[type='radio']"
         )
         self.assertEquals(len(choice_inputs), 3)
 
         # The buttons have labels to explain them
-        choice_labels = self.browser.find_element_by_tag_name('label')
+        choice_labels = self.browser.find_elements_by_tag_name('label')
         choices_text = [c.text for c in choice_labels]
         self.assertEquals(choices_text, [
+            'Vote:', # this label is auto-generated for the whole form
             'Very awesome',
             'Quite awesome',
             'Moderately awesome',
